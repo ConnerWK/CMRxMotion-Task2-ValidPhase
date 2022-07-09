@@ -38,4 +38,4 @@ arguments:
 
 hints:
   DockerRequirement:
-    dockerPull: docker.synapse.org/syn32627167/valid-repo-task02:latest
+    dockerPull: docker.synapse.org/syn32407772/valid-repo-task02:latest
