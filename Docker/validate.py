@@ -118,6 +118,14 @@ def nib_affine(file_dir):
     return proxy.affine
 
 
+def remove_blk_list(origin_list: list, 
+        blk_list:list = ['P028-2-ED', 'P028-3-ED', 'P028-2-ES', 'P030-4-ES']
+        ):
+    '''remove black list'''
+    for tgt in blk_list:
+        for elem in origin_list:
+            if tgt in elem:
+                origin_list.remove(elem)
 
 
 def get_args():
@@ -177,14 +185,20 @@ def main():
         sub_fnames = os.listdir(sub_folder)
         gt_fnames  = os.listdir(gt_folder)
 
-        if len(sub_fnames) != len(gt_fnames):
-            prediction_file_status = "INVALID"
-            invalid_reasons = ['The number of prediction samples is less than the number of gold standards' + args.entity_type]
-            result = {'submission_errors': "\n".join(invalid_reasons),
-                'submission_status': prediction_file_status}
-            with open(args.results, 'w') as o:
-                o.write(json.dumps(result))
-            return
+        if (len(sub_fnames) != len(gt_fnames)):
+            if (len(sub_fnames) != (len(gt_fnames)-4)):
+                prediction_file_status = "INVALID"
+                invalid_reasons = ['The number of prediction samples is less than the number of gold standards' + args.entity_type]
+                result = {'submission_errors': "\n".join(invalid_reasons),
+                    'submission_status': prediction_file_status}
+                with open(args.results, 'w') as o:
+                    o.write(json.dumps(result))
+                return
+            else:
+                remove_blk_list(gt_fnames)
+        else:
+            remove_blk_list(sub_fnames)
+            remove_blk_list(gt_fnames)
 
         sub_fnames.sort()
         gt_fnames.sort()

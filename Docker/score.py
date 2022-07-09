@@ -318,6 +318,16 @@ def cal_score_tsk2(sub_folder, gt_folder, sub_fnames, gt_fnames):
     return scores
 
 
+def remove_blk_list(origin_list: list, 
+        blk_list:list = ['P028-2-ED', 'P028-3-ED', 'P028-2-ES', 'P030-4-ES']
+        ):
+    '''remove black list'''
+    for tgt in blk_list:
+        for elem in origin_list:
+            if tgt in elem:
+                origin_list.remove(elem)
+
+
 def main():
     """Main function."""
     args = get_args()
@@ -349,6 +359,13 @@ def main():
 
     sub_fnames = os.listdir(sub_folder)
     gt_fnames  = os.listdir(gt_folder)
+
+    if len(sub_fnames) != len(gt_fnames):
+        remove_blk_list(gt_fnames)
+    else:
+        remove_blk_list(sub_fnames)
+        remove_blk_list(gt_fnames)
+
     sub_fnames.sort()
     gt_fnames.sort()
     
