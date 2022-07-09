@@ -4,7 +4,6 @@ cwlVersion: v1.0
 class: Workflow
 label: <YOUR CHALLENGE> Evaluation
 doc: >
-  BRIEF DESCRIPTION ABOUT THE CHALLENGE, e.g.
   This workflow will run and evaluate segmentaion submissions to the Task02 of
   CMRxMotion Challenge (syn32407769). Metrics returned are Dice score and HD distance.
 
@@ -33,7 +32,7 @@ steps:
         source: "#submitterUploadSynId"
       # TODO: replace `valueFrom` with the admin user ID or admin team ID
       - id: principalid
-        valueFrom: "3452410"
+        valueFrom: "3452092"
       - id: permissions
         valueFrom: "download"
       - id: synapse_config
@@ -60,7 +59,7 @@ steps:
     in:
       # TODO: replace `valueFrom` with the Synapse ID to the challenge goldstandard
       - id: synapseid
-        valueFrom: "syn32666139"
+        valueFrom: "syn32701268"
       - id: synapse_config
         source: "#synapseConfig"
     out:
