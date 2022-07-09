@@ -289,13 +289,26 @@ def cal_score_tsk2(sub_folder, gt_folder, sub_fnames, gt_fnames):
         LV_pred  = np.array(pred_np==1, dtype=np.uint8)
         MYO_pred = np.array(pred_np==2, dtype=np.uint8)
         RV_pred  = np.array(pred_np==3, dtype=np.uint8)
+        
         # update metrics
-        update_dsc(LV_dsc, LV_pred, LV_gt)
-        update_dsc(MYO_dsc, MYO_pred, MYO_gt)
-        update_dsc(RV_dsc, RV_pred, RV_gt)
-        update_hd95(LV_hd95, LV_pred, LV_gt, gt_spacing)
-        update_hd95(MYO_hd95, MYO_pred, MYO_gt, gt_spacing)
-        update_hd95(RV_hd95, RV_pred, RV_gt, gt_spacing)
+        if np.sum(LV_pred) == 0:
+            LV_dsc.append(0)
+            LV_hd95.append(373)
+        else:
+            update_dsc(LV_dsc, LV_pred, LV_gt)
+            update_hd95(LV_hd95, LV_pred, LV_gt, gt_spacing)
+        if np.sum(MYO_pred) == 0:
+            MYO_dsc.append(0)
+            MYO_hd95.append(373)
+        else:
+            update_dsc(MYO_dsc, MYO_pred, MYO_gt)
+            update_hd95(MYO_hd95, MYO_pred, MYO_gt, gt_spacing)
+        if np.sum(RV_pred) == 0:
+            RV_dsc.append(0)
+            RV_hd95.append(373)
+        else:
+            update_dsc(RV_dsc, RV_pred, RV_gt)
+            update_hd95(RV_hd95, RV_pred, RV_gt, gt_spacing)
 
     '''calculate mean value of metrics'''
     # mean dsc values
